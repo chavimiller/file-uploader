@@ -1,6 +1,9 @@
 // const db = require("../?")
 
-async function newFolderGet() {}
+async function newFolderGet() {
+  try {
+  } catch (error) {}
+}
 
 async function newFolderPost() {}
 

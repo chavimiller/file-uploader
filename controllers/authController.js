@@ -2,7 +2,10 @@
 
 // Signup
 
-async function signUpGet(req, res) {}
+async function signUpGet(req, res) {
+  try {
+  } catch (error) {}
+}
 
 async function signUpPost(req, res) {}
 

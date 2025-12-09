@@ -1,6 +1,9 @@
 // const db = require("../?")
 
-async function newFileGet(req, res) {}
+async function newFileGet(req, res) {
+  try {
+  } catch (error) {}
+}
 
 async function newFilePost(req, res) {}
 
