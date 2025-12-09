@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>Signup</title>
+  </head>
+  <body>
+    <div class="container section">
+      <h1>Sign up</h1>
+      <% if (errors && errors.length > 0) { %>
+      <div style="color: red">
+        <% errors.forEach(err => { %>
+        <p class="signup-error"><%= err.msg %></p>
+        <% }); %>
+      </div>
+      <% } %>
+      <form action="/auth/signup" method="POST" autocomplete="off">
+        <label for="firstName">Firstname</label>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First name"
+          value="<%= data ? data.firstName : '' %>"
+          required
+        />
+
+        <label for="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username or email"
+          value="<%= data ? data.username : '' %>"
+          required
+        />
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          autocomplete="new-password"
+          required
+        />
+
+        <label for="confirmPass">Confirmpass</label>
+        <input
+          type="password"
+          name="confirmPass"
+          placeholder="Confirm password"
+          autocomplete="new-password"
+          required
+        />
+
+        <button type="submit">Create account</button>
+      </form>
+      <div class="lower-line">
+        Already have an account?
+        <a href="/auth/login" class="redirect">Sign in here</a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="container section">
+      <h1>Login</h1>
+
+      <form class="form" action="/auth/login" method="POST" autocomplete="off">
+        <div></div>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username or email"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          autocomplete="new-password"
+          required
+        />
+        <button class="login-button">Sign in</button>
+      </form>
+      <div class="lower-line">
+        Don't have an account?
+        <a class="redirect" href="/auth/signup">Create account</a>
+      </div>
+    </div>
+  </body>
+</html>
