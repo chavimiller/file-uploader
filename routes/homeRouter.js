@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const homeController = require("../controllers/homeController");
-const homeRouter = Router();
+const homeRouter = new Router();
 
 // GET all content
 
