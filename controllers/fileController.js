@@ -12,4 +12,11 @@ async function updateFilePost(req, res) {}
 
 async function deleteFile(req, res) {}
 
-module.exports = {};
+module.exports = {
+  newFileGet,
+  newFilePost,
+  readFile,
+  updateFileGet,
+  updateFilePost,
+  deleteFile,
+};
