@@ -7,18 +7,10 @@ async function main() {
       username: "alice1234",
       password: "abc",
     },
-    include: {
-      posts: true,
-    },
   });
   console.log("Created user:", user);
 
-  // Fetch all users with their posts
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true,
-    },
-  });
+  const allUsers = await prisma.user.findMany();
   console.log("All users:", JSON.stringify(allUsers, null, 2));
 }
 
