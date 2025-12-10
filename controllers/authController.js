@@ -39,17 +39,25 @@ async function signUpPost(req, res) {
   }
 }
 
-// Login
-
 async function loginGet(req, res) {
   try {
-    res.render("login", { errors: [] });
+    res.render("login");
   } catch (err) {
     console.error("ERROR in loginGet: ", err);
     res.status(500).send("Server error");
   }
 }
+async function logout(req, res, next) {
+  req.logout((err) => {
+    if (err) return next(err);
 
-async function loginPost(req, res) {}
+    req.session.destroy((err) => {
+      if (err) return next(err);
 
-module.exports = { signUpGet, signUpPost, loginGet, loginPost };
+      res.clearCookie("connect.sid");
+      res.redirect("/auth/login");
+    });
+  });
+}
+
+module.exports = { signUpGet, signUpPost, loginGet, logout };
