@@ -1,5 +1,6 @@
 const prisma = require("../lib/prisma");
 const { validationResult, matchedData } = require("express-validator");
+const bcrypt = require("bcryptjs");
 
 // Signup
 
@@ -23,14 +24,19 @@ async function signUpPost(req, res) {
   const userData = matchedData(req);
 
   try {
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
     await prisma.user.create({
       data: {
         name: userData.name,
         username: userData.username,
-        password: userData.password,
+        password: hashedPassword,
       },
     });
-  } catch (err) {}
+    res.redirect("/auth/login");
+  } catch (err) {
+    console.error("ERROR with signUpPost: ", err);
+    res.status(500).send("Server error");
+  }
 }
 
 // Login
