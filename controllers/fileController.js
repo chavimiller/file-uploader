@@ -7,7 +7,7 @@ async function newFileGet(req, res) {
 
 async function newFilePost(req, res) {}
 
-async function readFile(req, res) {}
+// need this ? async function readFile(req, res) {}
 
 async function updateFileGet(req, res) {}
 
@@ -18,7 +18,6 @@ async function deleteFile(req, res) {}
 module.exports = {
   newFileGet,
   newFilePost,
-  readFile,
   updateFileGet,
   updateFilePost,
   deleteFile,

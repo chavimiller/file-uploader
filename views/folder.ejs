@@ -2,29 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Your Folders</title>
+    <title><!-- <%= folder.name %> --> - Files</title>
   </head>
   <body>
     <header>
-      <h1>Your Folders</h1>
+      <h1>Folder:<!--<%= folder.name %> --></h1>
+
       <nav>
-        <a href="/auth/logout">Logout</a>
+        <a href="/home">← Back to folders</a>
       </nav>
     </header>
 
     <main>
-      <% if (folders && folders.length > 0) { %>
-      <ul>
-        <% folders.forEach(folder => { %>
-        <li>
-          <!-- Clicking this goes to the folder page -->
-          <a href="/folder/<%= folder._id %>"> <%= folder.name %> </a>
-        </li>
-        <% }) %>
-      </ul>
-      <% } else { %>
-      <p>You don't have any folders yet.</p>
-      <% } %>
+      <!-- Upload form for THIS folder -->
+      <section>
+        <h2>Upload a file</h2>
+        <form action="/file/upload/<%= folder._id %>" method="POST">
+          <input type="file" name="file" required />
+          <button type="submit">Upload</button>
+        </form>
+      </section>
+
+      <!-- Files in this folder -->
+      <section>
+        <h2>Files in this folder</h2>
+
+        <% if (files && files.length > 0) { %>
+        <ul>
+          <% files.forEach(file => { %>
+          <li>
+            <%= file.originalName || file.name %>
+            <!-- add download/delete links later if you want -->
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p>No files in this folder yet. Upload one above!</p>
+        <% } %>
+      </section>
     </main>
   </body>
 </html>

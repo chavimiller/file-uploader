@@ -4,7 +4,11 @@
 
 async function showAllContent(req, res) {
   try {
-  } catch (error) {}
+    res.render("homepage", { errors: [], folders: [] });
+  } catch (err) {
+    console.error("ERROR with showAllContent: ", err);
+    res.status(500).send("Server error");
+  }
 }
 
 // Ensure user is logged in and if not redirect to login

@@ -11,6 +11,7 @@ const folderRouter = new Router();
 // POST edit folder
 
 // GET read folder
+folderRouter.get("/", folderController.readFolder);
 
 // POST delete folder
 
