@@ -18,20 +18,13 @@
       <% } %>
       <form action="/auth/signup" method="POST" autocomplete="off">
         <label for="firstName">Firstname</label>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First name"
-          value="<%= data ? data.firstName : '' %>"
-          required
-        />
+        <input type="text" name="firstName" placeholder="First name" required />
 
         <label for="username">Username</label>
         <input
           type="text"
           name="username"
           placeholder="Username or email"
-          value="<%= data ? data.username : '' %>"
           required
         />
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Folders</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Your Folders</h1>
+      <nav>
+        <a href="/auth/logout">Logout</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <!-- Create new folder -->
+      <section class="new-folder">
+        <h2>Create a new folder</h2>
+        <form action="/folder" method="POST">
+          <input type="text" name="name" placeholder="Folder name" required />
+          <button type="submit">Create Folder</button>
+        </form>
+      </section>
+
+      <!-- List of folders -->
+      <section class="folders">
+        <h2>Your folders</h2>
+
+        <% if (folders && folders.length > 0) { %>
+        <ul class="folder-list">
+          <% folders.forEach(folder => { %>
+          <li class="folder-item">
+            <a href="/folder/<%= folder._id %>">
+              <strong><%= folder.name %></strong>
+            </a>
+            <% if (folder.createdAt) { %>
+            <small>
+              Created: <%= new Date(folder.createdAt).toLocaleDateString() %>
+            </small>
+            <% } %>
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p>You don’t have any folders yet. Create one above!</p>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>
