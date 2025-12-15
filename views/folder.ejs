@@ -14,10 +14,14 @@
     </header>
 
     <main>
-      <!-- Upload form for THIS folder -->
+      <!-- Upload file form for THIS folder -->
       <section>
         <h2>Upload a file</h2>
-        <form action="/file/upload/<%= folder._id %>" method="POST">
+        <form
+          action="/file/upload/<%= folder._id %>"
+          method="POST"
+          enctype="multipart/form-data"
+        >
           <input type="file" name="file" required />
           <button type="submit">Upload</button>
         </form>
@@ -32,7 +36,7 @@
           <% files.forEach(file => { %>
           <li>
             <%= file.originalName || file.name %>
-            <!-- add download/delete links later if you want -->
+            <!-- add download/delete links maybe -->
           </li>
           <% }) %>
         </ul>
