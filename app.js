@@ -27,6 +27,7 @@ app.use(
     }),
   })
 );
+
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
@@ -36,7 +37,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/folder", folderRouter);
-app.use("/file", fileRouter);
+app.use("/folder/:folderId/file", fileRouter);
 app.use("/home", homeRouter);
 
 const PORT = 3000;

@@ -7,15 +7,36 @@ async function newFileGet(req, res) {
 
 async function newFilePost(req, res) {
   try {
+    const folderId = Number(req.params.folderId);
+
+    if (!req.file) {
+      return res.status(400).send("No file uploaded.");
+    }
+
+    const folder = await prisma.folder.findUnique({
+      where: { id: folderId },
+      select: { userId: true },
+    });
+
+    if (!folder) {
+      return res
+        .status(403)
+        .send("You do not have the authorization to make these changes.");
+    }
+
     await prisma.files.create({
       data: {
-        folder: {
-          connect: { id: Number(req.body.folderId) },
-        },
+        folder: { connect: { id: folderId } },
+        name: req.body.name,
+        originalName: req.file.originalname,
+        storedName: req.file.filename,
+        mimeType: req.file.mimetype,
+        size: req.file.size,
+        path: req.file.path,
       },
     });
 
-    res.redirect(`/folder/${req.body.folderId}`);
+    res.redirect(`/folder/${folderId}`);
   } catch (err) {
     console.error("ERROR with newFilePost: ", err);
     res.status(500).send("Could not create file");

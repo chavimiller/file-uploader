@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const folderController = require("../controllers/folderController");
-const folderRouter = new Router();
+const folderRouter = Router();
 
 // GET new folder
 folderRouter.get("/new", folderController.newFolderGet);
