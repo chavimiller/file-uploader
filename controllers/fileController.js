@@ -5,7 +5,22 @@ async function newFileGet(req, res) {
   } catch (err) {}
 }
 
-async function newFilePost(req, res) {}
+async function newFilePost(req, res) {
+  try {
+    await prisma.files.create({
+      data: {
+        folder: {
+          connect: { id: Number(req.body.folderId) },
+        },
+      },
+    });
+
+    res.redirect(`/folder/${req.body.folderId}`);
+  } catch (err) {
+    console.error("ERROR with newFilePost: ", err);
+    res.status(500).send("Could not create file");
+  }
+}
 
 // need this ? async function readFile(req, res) {}
 
