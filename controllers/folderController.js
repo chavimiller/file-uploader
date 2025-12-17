@@ -21,7 +21,7 @@ async function editFolderPost(req, res) {}
 
 async function readFolder(req, res) {
   try {
-    const folderId = Number(req.params.id);
+    const folderId = Number(req.params.folderId);
 
     const folder = await prisma.folder.findFirst({
       where: {
@@ -40,7 +40,30 @@ async function readFolder(req, res) {
   }
 }
 
-async function deleteFolder(req, res) {}
+async function deleteFolder(req, res) {
+  try {
+    const folderId = Number(req.params.folderId);
+
+    const folder = await prisma.folder.findFirst({
+      where: {
+        id: folderId,
+        userId: req.user.id,
+      },
+      include: {
+        files: true,
+      },
+    });
+
+    if (!folder) return res.status(404).send("Folder not found.");
+
+    await prisma.folder.delete({
+      where: { id: folderId },
+    });
+    res.redirect("/home");
+  } catch (err) {
+    console.error("ERROR with deleteFolder: ", err);
+  }
+}
 
 async function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next();

@@ -10,11 +10,16 @@ folderRouter.post("/new", folderController.newFolderPost);
 
 // GET read folder
 folderRouter.get(
-  "/:id",
+  "/:folderId",
   folderController.ensureAuthenticated,
   folderController.readFolder
 );
 
 // POST delete folder
+folderRouter.post(
+  "/:folderId/delete",
+  folderController.ensureAuthenticated,
+  folderController.deleteFolder
+);
 
 module.exports = folderRouter;

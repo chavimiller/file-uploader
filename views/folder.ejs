@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title><!-- <%= folder.name %> --> - Files</title>
+    <title><%= folder.name %> - Files</title>
   </head>
   <body>
     <header>
@@ -37,7 +37,18 @@
           <% files.forEach(file => { %>
           <li>
             <%= file.name || file.originalName %>
-            <!-- add download/delete links maybe -->
+            <div>
+              <div>
+                <a href="/folder/<%= folder.id %>/file/:fileId/download"
+                  >Download</a
+                >
+              </div>
+              <div>
+                <a href="/folder/<%= folder.id %>/file/:fileId/delete"
+                  >Delete</a
+                >
+              </div>
+            </div>
           </li>
           <% }) %>
         </ul>
