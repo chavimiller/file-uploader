@@ -2,8 +2,6 @@ const { Router } = require("express");
 const folderController = require("../controllers/folderController");
 const folderRouter = Router();
 
-// GET new folder
-folderRouter.get("/new", folderController.newFolderGet);
 // POST new folder
 folderRouter.post("/new", folderController.newFolderPost);
 // GET edit folder
@@ -11,7 +9,11 @@ folderRouter.post("/new", folderController.newFolderPost);
 // POST edit folder
 
 // GET read folder
-folderRouter.get("/", folderController.readFolder);
+folderRouter.get(
+  "/:id",
+  folderController.ensureAuthenticated,
+  folderController.readFolder
+);
 
 // POST delete folder
 

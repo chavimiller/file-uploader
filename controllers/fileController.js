@@ -7,6 +7,8 @@ async function newFileGet(req, res) {
 
 async function newFilePost(req, res) {
   try {
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
     const folderId = Number(req.params.folderId);
 
     if (!req.file) {

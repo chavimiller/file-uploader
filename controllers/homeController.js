@@ -1,10 +1,14 @@
-// const db = require("../?")
+const prisma = require("../lib/prisma");
 
 // Display folders or files
 
 async function showAllContent(req, res) {
   try {
-    res.render("homepage", { errors: [], folders: [] });
+    const folders = await prisma.folder.findMany({
+      where: { userId: req.user.id },
+      orderBy: { id: "asc" },
+    });
+    res.render("homepage", { errors: [], folders });
   } catch (err) {
     console.error("ERROR with showAllContent: ", err);
     res.status(500).send("Server error");

@@ -1,32 +1,57 @@
-// const db = require("../?")
+const prisma = require("../lib/prisma");
 
-async function newFolderGet() {
+async function newFolderPost(req, res) {
   try {
-  } catch (error) {}
+    await prisma.folder.create({
+      data: {
+        user: { connect: { id: Number(req.user.id) } },
+        name: req.body.name,
+      },
+    });
+    res.redirect("/home");
+  } catch (err) {
+    console.error("ERROR with newFolderPost: ", err);
+    res.status(500).send("Server error");
+  }
 }
 
-async function newFolderPost() {}
+async function editFolderGet(req, res) {}
 
-async function editFolderGet() {}
-
-async function editFolderPost() {}
+async function editFolderPost(req, res) {}
 
 async function readFolder(req, res) {
   try {
-    res.render("folder", { errors: [] });
+    const folderId = Number(req.params.id);
+
+    const folder = await prisma.folder.findFirst({
+      where: {
+        id: folderId,
+        userId: req.user.id,
+      },
+      include: {
+        files: true,
+      },
+    });
+    if (!folder) return res.status(404).send("Folder not found.");
+    res.render("folder", { errors: [], folder, files: folder.files });
   } catch (err) {
     console.error("ERROR in readFolder: ", err);
     res.status(500).send("Server error");
   }
 }
 
-async function deleteFolder() {}
+async function deleteFolder(req, res) {}
+
+async function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  return res.redirect("/auth/login");
+}
 
 module.exports = {
-  newFolderGet,
   newFolderPost,
   editFolderGet,
   editFolderPost,
   readFolder,
   deleteFolder,
+  ensureAuthenticated,
 };
