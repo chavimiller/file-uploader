@@ -1,10 +1,5 @@
 const prisma = require("../lib/prisma");
 
-async function newFileGet(req, res) {
-  try {
-  } catch (err) {}
-}
-
 async function newFilePost(req, res) {
   try {
     console.log("BODY:", req.body);
@@ -15,20 +10,19 @@ async function newFilePost(req, res) {
       return res.status(400).send("No file uploaded.");
     }
 
-    const folder = await prisma.folder.findUnique({
-      where: { id: folderId },
-      select: { userId: true },
+    const folder = await prisma.folder.findFirst({
+      where: { id: folderId, userId: req.user.id },
+      select: { id: true },
     });
 
     if (!folder) {
-      return res
-        .status(403)
-        .send("You do not have the authorization to make these changes.");
+      return res.status(404).send("Folder not found.");
     }
 
     await prisma.files.create({
       data: {
         folder: { connect: { id: folderId } },
+        user: { connect: { id: req.user.id } },
         name: req.body.name,
         originalName: req.file.originalname,
         storedName: req.file.filename,
@@ -89,7 +83,6 @@ async function updateFilePost(req, res) {
 async function deleteFile(req, res) {}
 
 module.exports = {
-  newFileGet,
   newFilePost,
   updateFileGet,
   updateFilePost,

@@ -3,9 +3,6 @@ const fileController = require("../controllers/fileController");
 const fileRouter = Router({ mergeParams: true });
 const upload = require("../middleware/uploadMiddleware");
 
-// GET new file
-fileRouter.get("/new", fileController.newFileGet);
-
 // POST new file
 fileRouter.post(
   "/new",

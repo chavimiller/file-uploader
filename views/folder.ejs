@@ -18,12 +18,12 @@
       <section>
         <h2>Upload a file</h2>
         <form
-          action="/folder/<%= folder._id %>/file/new"
+          action="/folder/<%= folder.id %>/file/new"
           method="POST"
           enctype="multipart/form-data"
         >
           <input type="file" name="uploaded_file" required />
-          <input type="text" name="name" required />
+          <input type="text" name="name" placeholder="File name" required />
           <button type="submit">Upload</button>
         </form>
       </section>
@@ -36,7 +36,7 @@
         <ul>
           <% files.forEach(file => { %>
           <li>
-            <%= file.originalName || file.name %>
+            <%= file.name || file.originalName %>
             <!-- add download/delete links maybe -->
           </li>
           <% }) %>
