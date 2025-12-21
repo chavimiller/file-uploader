@@ -5,9 +5,9 @@ const folderRouter = Router();
 // POST new folder
 folderRouter.post("/new", folderController.newFolderPost);
 // GET edit folder
-
+folderRouter.get("/:folderId/edit", folderController.editFolderGet);
 // POST edit folder
-
+folderRouter.post("/:folderId/edit", folderController.editFolderPost);
 // GET read folder
 folderRouter.get(
   "/:folderId",
