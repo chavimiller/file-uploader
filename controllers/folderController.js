@@ -15,9 +15,53 @@ async function newFolderPost(req, res) {
   }
 }
 
-async function editFolderGet(req, res) {}
+async function editFolderGet(req, res) {
+  try {
+    const folderId = Number(req.params.folderId);
+    const folder = await prisma.folder.findFirst({
+      where: {
+        id: folderId,
+        userId: req.user.id,
+      },
+    });
 
-async function editFolderPost(req, res) {}
+    if (!folder) return res.status(404).send("Folder not found.");
+
+    const folders = await prisma.folder.findMany({
+      where: { userId: req.user.id },
+      orderBy: { id: "asc" },
+    });
+
+    res.render("homepage", { errors: [], folders, editingFolder: folder });
+  } catch (err) {
+    console.error("ERROR with editFolderGet: ", err);
+    return res.status(500).send("Server error");
+  }
+}
+
+async function editFolderPost(req, res) {
+  try {
+    const folderId = Number(req.params.folderId);
+    const name = req.body.name?.trim();
+
+    if (!name) return res.status(400).send("Folder name is required.");
+
+    const folder = await prisma.folder.findFirst({
+      where: { id: folderId, userId: req.user.id },
+    });
+
+    if (!folder) return res.status(404).send("Folder not found.");
+
+    await prisma.folder.update({
+      where: { id: folderId },
+      data: { name },
+    });
+    res.redirect("/home");
+  } catch (err) {
+    console.error("ERROR with editFolderGet: ", err);
+    res.status(500).send("Server error");
+  }
+}
 
 async function readFolder(req, res) {
   try {

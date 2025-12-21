@@ -11,20 +11,48 @@
         <a href="/auth/logout">Logout</a>
       </nav>
     </header>
-
     <main>
       <div>
+        <% if (editingFolder) { %>
+        <form
+          action="/folder/<%= editingFolder.id %>/edit"
+          method="POST"
+          style="margin-bottom: 20px"
+        >
+          <input
+            type="text"
+            name="name"
+            placeholder="Folder name"
+            required
+            value="<%= editingFolder.name %>"
+          />
+          <button type="submit">Save</button>
+          <a href="/home" style="margin-left: 8px">Cancel</a>
+        </form>
+        <% } else { %>
         <form action="/folder/new" method="POST" style="margin-bottom: 20px">
           <input type="text" name="name" placeholder="Folder name" required />
           <button type="submit">Add Folder</button>
         </form>
+        <% } %>
       </div>
+
       <% if (folders && folders.length > 0) { %>
       <ul>
         <% folders.forEach(folder => { %>
+
         <li>
-          <a href="/folder/<%= folder.id %>"> <%= folder.name %> </a>
-          <form action="/folder/<%= folder.id %>/delete" method="POST">
+          <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
+
+          <a href="/folder/<%= folder.id %>/edit" style="margin-left: 10px"
+            >Edit</a
+          >
+
+          <form
+            action="/folder/<%= folder.id %>/delete"
+            method="POST"
+            style="display: inline"
+          >
             <button type="submit">Delete</button>
           </form>
         </li>

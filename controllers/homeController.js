@@ -8,7 +8,7 @@ async function showAllContent(req, res) {
       where: { userId: req.user.id },
       orderBy: { id: "asc" },
     });
-    res.render("homepage", { errors: [], folders });
+    res.render("homepage", { errors: [], folders, editingFolder: null });
   } catch (err) {
     console.error("ERROR with showAllContent: ", err);
     res.status(500).send("Server error");
