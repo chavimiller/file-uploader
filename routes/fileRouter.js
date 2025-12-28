@@ -13,8 +13,9 @@ fileRouter.post(
 // GET read file
 
 // GET update file
-
+fileRouter.get("/:fileId/edit", fileController.updateFileGet);
 // POST update file
+fileRouter.post("/:fileId/edit", fileController.updateFilePost);
 
 // POST delete file
 

@@ -77,7 +77,12 @@ async function readFolder(req, res) {
       },
     });
     if (!folder) return res.status(404).send("Folder not found.");
-    res.render("folder", { errors: [], folder, files: folder.files });
+    res.render("folder", {
+      errors: [],
+      folder,
+      files: folder.files,
+      editingFileId: null,
+    });
   } catch (err) {
     console.error("ERROR in readFolder: ", err);
     res.status(500).send("Server error");

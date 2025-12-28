@@ -5,6 +5,9 @@
     <title><%= folder.name %> - Files</title>
   </head>
   <body>
+    <% const editingId = (typeof editingFileId !== "undefined") ?
+    Number(editingFileId) : null; %>
+
     <header>
       <h1>Folder:<!--<%= folder.name %> --></h1>
 
@@ -17,6 +20,7 @@
       <!-- Upload file form for THIS folder -->
       <section>
         <h2>Upload a file</h2>
+
         <form
           action="/folder/<%= folder.id %>/file/new"
           method="POST"
@@ -28,6 +32,8 @@
         </form>
       </section>
 
+      <hr />
+
       <!-- Files in this folder -->
       <section>
         <h2>Files in this folder</h2>
@@ -36,19 +42,41 @@
         <ul>
           <% files.forEach(file => { %>
           <li>
+            <% const isEditing = editingId !== null && file.id === editingId; %>
+            <% if (isEditing) { %>
+            <!-- EDIT MODE -->
+            <form
+              action="/folder/<%= folder.id %>/file/<%= file.id %>/edit"
+              method="POST"
+              style="display: inline"
+            >
+              <input
+                type="text"
+                name="name"
+                value="<%= file.name %>"
+                required
+              />
+              <button type="submit">Save</button>
+            </form>
+
+            <a href="/folder/<%= folder.id %>">Cancel</a>
+            <% } else { %>
+            <!-- NORMAL MODE -->
             <%= file.name || file.originalName %>
-            <div>
-              <div>
-                <a href="/folder/<%= folder.id %>/file/:fileId/download"
-                  >Download</a
-                >
-              </div>
-              <div>
-                <a href="/folder/<%= folder.id %>/file/:fileId/delete"
-                  >Delete</a
-                >
-              </div>
-            </div>
+
+            <a href="/folder/<%= folder.id %>/file/<%= file.id %>/download"
+              >Download</a
+            >
+            <a href="/folder/<%= folder.id %>/file/<%= file.id %>/edit">Edit</a>
+
+            <form
+              action="/folder/<%= folder.id %>/file/<%= file.id %>/delete"
+              method="POST"
+              style="display: inline"
+            >
+              <button type="submit">Delete</button>
+            </form>
+            <% } %>
           </li>
           <% }) %>
         </ul>

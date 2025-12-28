@@ -43,35 +43,45 @@ async function newFilePost(req, res) {
 
 async function updateFileGet(req, res) {
   try {
-    res.render("uploadFile", { data: data }); // something like this
+    const folderId = Number(req.params.folderId);
+    const fileId = Number(req.params.fileId);
+    const userId = req.user.id;
+
+    const folder = await prisma.folder.findFirst({
+      where: { id: folderId, userId },
+      include: { files: true },
+    });
+    if (!folder) return res.status(404).send("Folder not found");
+
+    const editingFile = folder.files.find((f) => f.id === fileId);
+    if (!editingFile) return res.status(404).send("File not found");
+
+    res.render("folder", {
+      folder,
+      files: folder.files,
+      editingFileId: fileId,
+      editingFile,
+    });
   } catch (err) {
     console.error("ERROR with updateFileGet: ", err);
   }
 }
 
 async function updateFilePost(req, res) {
-  const fileId = Number(req.params.id);
-  const userId = req.user.id;
   try {
-    const file = await prisma.files.findUnique({
-      where: {
-        id: fileId,
-      },
+    const folderId = Number(req.params.folderId);
+    const fileId = Number(req.params.fileId);
+    const userId = req.user.id;
+
+    const newName = (req.body.name || "").trim();
+    if (!newName) return res.status(400).send("Name is required");
+
+    const result = await prisma.files.updateMany({
+      where: { id: fileId, folderId, userId },
+      data: { name: newName },
     });
 
-    if (file.userId !== userId) {
-      return res.status(500).send("Not authorized to make changes");
-    }
-
-    await prisma.files.update({
-      where: {
-        id: fileId,
-      },
-      data: {
-        name: req.body.name,
-        fileContent: req.body.fileContent,
-      },
-    });
+    if (result.count === 0) return res.status(404).send("File not found");
 
     res.redirect("/folder/" + folderId);
   } catch (err) {
