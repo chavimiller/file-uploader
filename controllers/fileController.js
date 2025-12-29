@@ -90,7 +90,32 @@ async function updateFilePost(req, res) {
   }
 }
 
-async function deleteFile(req, res) {}
+async function deleteFile(req, res) {
+  try {
+    const folderId = Number(req.params.folderId);
+    const fileId = Number(req.params.fileId);
+    const userId = req.user.id;
+
+    const file = await prisma.files.findFirst({
+      where: {
+        id: fileId,
+        folderId,
+        userId,
+      },
+    });
+
+    if (!file) return res.status(404).send("File not found.");
+
+    await prisma.files.delete({
+      where: { id: fileId },
+    });
+
+    res.redirect(`/folder/${folderId}`);
+  } catch (err) {
+    console.error("ERROR with deleteFile: ", err);
+    res.status(500).send("Server error");
+  }
+}
 
 module.exports = {
   newFilePost,

@@ -18,5 +18,6 @@ fileRouter.get("/:fileId/edit", fileController.updateFileGet);
 fileRouter.post("/:fileId/edit", fileController.updateFilePost);
 
 // POST delete file
+fileRouter.post("/:fileId/delete", fileController.deleteFile);
 
 module.exports = fileRouter;
